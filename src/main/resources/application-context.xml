@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:properties/db.properties</value>
+                <value>classpath:properties/redis.properties</value>
+                <value>classpath:system_production.properties</value>
+                <value>classpath:system_develop.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 导入其他模块配置文件
+        datasource-develop.xml：对应开发环境数据源配置
+        datasource-production.xml：对应生产环境数据源配置
+
+        spring-redis-develop.xml：对应开发环境Redis服务器配置
+        spring-redis_production.xml：对应生产环境Redis服务器配置
+     -->
+    <import resource="classpath:config/datasource-develop.xml"/>
+    <import resource="classpath:config/datasource-production.xml"/>
+
+    <import resource="classpath:config/spring-context.xml"/>
+    <import resource="classpath:config/shiro-security.xml"/>
+
+    <import resource="classpath:config/spring-redis-develop.xml"/>
+    <import resource="classpath:config/spring-redis_production.xml"/>
+</beans>

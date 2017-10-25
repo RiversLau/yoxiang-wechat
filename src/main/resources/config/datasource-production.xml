@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <beans profile="production">
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+              destroy-method="close">
+            <property name="driverClassName" value="${db.driver}"/>
+            <property name="url" value="${db.production.url}"/>
+            <property name="username" value="${db.production.username}"/>
+            <property name="password" value="${db.production.password}"/>
+            <!-- 设置连接池初始值 -->
+            <property name="initialSize" value="5"/>
+            <!-- 设置连接池最大值 -->
+            <property name="maxActive" value="200"/>
+            <!-- 设置连接池最小空闲值 -->
+            <property name="minIdle" value="20"/>
+            <!-- 设置连接池最大空闲值 -->
+            <property name="maxIdle" value="50"/>
+
+            <!--解决mysql 8小时自动断开链接问题-->
+            <property name="testOnBorrow" value="true"/>
+            <property name="validationQuery" value="select 1"/>
+        </bean>
+    </beans>
+</beans>
