@@ -7,14 +7,14 @@ package com.yoxiang.common;
 public class PropertiesHelper {
 
     public static String getContextPath() {
-        return "http://doctoruat.rrdkf.com";
+        return "http://riverslau.natapp1.cc";
     }
 
     public static String getWechatAppId() {
-        return "";
+        return "wx34295e07475bae14";
     }
 
     public static String getWechatAppSecrect() {
-        return "";
+        return "766885af793278d0ccacb5a2e797ffa4";
     }
 }
