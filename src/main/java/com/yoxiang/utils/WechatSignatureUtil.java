@@ -13,7 +13,7 @@ import java.util.UUID;
  * Author: Rivers
  * Date: 2017/6/29 14:42
  */
-public class WxSignatureUtil {
+public class WechatSignatureUtil {
 
     /**
      * 生成JS-SDK签名

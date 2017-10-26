@@ -35,18 +35,21 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
     <!-- 请求耗时记录拦截器，配置拦截所有请求 -->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<bean class="com.recorvery.base.common.LogInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-        <!--&lt;!&ndash; 拦截请求获取open_id,暂不处理 &ndash;&gt;-->
-        <!--&lt;!&ndash;<mvc:interceptor>&ndash;&gt;-->
-            <!--&lt;!&ndash;<mvc:mapping path="/doctor/pwd/login"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<bean class="com.recorvery.doctor.common.interceptors.WechatOpenidInterceptor"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;</mvc:interceptor>&ndash;&gt;-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <!-- 拦截请求获取open_id -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.yoxiang.common.interceptors.WechatOpenidInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
 

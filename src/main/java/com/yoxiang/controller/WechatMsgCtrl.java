@@ -1,6 +1,6 @@
 package com.yoxiang.controller;
 
-import com.yoxiang.utils.WxSignatureUtil;
+import com.yoxiang.utils.WechatSignatureUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ public class WechatMsgCtrl extends BaseCtrl {
         String echostr = request.getParameter("echostr");// 随机字符串
 
         String token = "yoxiang35yoxiang";
-        String echoSignature = WxSignatureUtil.generateInitCheckSignature(timestamp, nonce, token);
+        String echoSignature = WechatSignatureUtil.generateInitCheckSignature(timestamp, nonce, token);
 
         //两者签名相同，验证开发者成功，将微信发送过来的echostr返回给微信服务器
         if (echoSignature != null && echoSignature.equals(signature)) {
