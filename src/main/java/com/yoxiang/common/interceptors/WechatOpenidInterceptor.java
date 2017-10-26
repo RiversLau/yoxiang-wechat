@@ -69,7 +69,7 @@ public class WechatOpenidInterceptor extends HandlerInterceptorAdapter {
                 boolean is_weixin = (userAgent != null && userAgent.toLowerCase().contains(MICROMESSENGER));
                 session.setAttribute(BaseCtrl.OPEN_IN_WEIXIN, is_weixin ? "1" : "0");
 
-                if ("true".equals("develop")) {  // 本地开发模拟微信端测试
+                if ("true".equals("true")) {  // 本地开发模拟微信端测试
                     session.setAttribute(UserCtrl.DOCTOR_USER_ID, 1);
                     session.setAttribute(UserCtrl.OPEN_ID, "oooy1wh4iCn6Y558u3ETw4boaXXw");
                     session.setAttribute(BaseCtrl.BINDING_PHONE, "18688184378");

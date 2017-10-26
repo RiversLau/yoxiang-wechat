@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yoxiang.mapper.TitleMapper">
+
+    <resultMap id="wholeResultMap" type="com.yoxiang.vo.TitleVO">
+        <id property="id" column="id"/>
+        <result property="name" column="title_name"/>
+        <result property="type" column="type" jdbcType="INTEGER" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+    </resultMap>
+
+    <select id="getStatusEqualList" resultMap="wholeResultMap">
+        SELECT id, title_name, order_num
+        FROM title
+        WHERE status = #{status, jdbcType=INTEGER} ORDER BY `type` ASC , order_num DESC
+    </select>
+
+    <select id="getStatusEqualListByType" resultMap="wholeResultMap">
+        select id, title_name, order_num
+        from title
+        where type = #{type, jdbcType=INTEGER} and status = #{status, jdbcType=INTEGER} order by order_num desc
+    </select>
+</mapper>

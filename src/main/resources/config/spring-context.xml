@@ -20,7 +20,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
-        <property name="typeAliasesPackage" value="com.recorvery.base.entity"/>
+        <property name="typeAliasesPackage" value="com.yoxiang.vo"/>
         <property name="mapperLocations" value="classpath:mappers/*.xml"/>
         <property name="plugins">
             <array>
@@ -38,7 +38,7 @@
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.recorvery.base.mapper"/>
+        <property name="basePackage" value="com.yoxiang.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
