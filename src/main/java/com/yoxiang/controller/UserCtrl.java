@@ -1,9 +1,11 @@
 package com.yoxiang.controller;
 
+import com.yoxiang.common.PropertiesHelper;
 import com.yoxiang.common.enums.DoctorType;
 import com.yoxiang.common.interceptors.Authc;
 import com.yoxiang.manager.AreaManager;
 import com.yoxiang.manager.TitleManager;
+import com.yoxiang.utils.QiniuUtil;
 import com.yoxiang.vo.AreaVO;
 import com.yoxiang.vo.TitleVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,13 @@ public class UserCtrl extends BaseCtrl {
         List<TitleVO> doctorTitles = titleManager.getEnabledListByType(DoctorType.DOCTOR);
         List<TitleVO> therapistTitles = titleManager.getEnabledListByType(DoctorType.THERAPIST);
 
+        String accessKey = PropertiesHelper.getQiniuAccessKey();
+        String secretKey = PropertiesHelper.getQiniuSecretKey();
+        String bucketName = PropertiesHelper.getBucketName();
+
+        String token = QiniuUtil.getUploadToken(accessKey, secretKey, bucketName);
+
+        request.setAttribute("uptoken", token);
         request.setAttribute("areaList", areaList);
         request.setAttribute("doctorTitles", doctorTitles);
         request.setAttribute("therapistTitles", therapistTitles);

@@ -9,4 +9,6 @@ import java.util.Map;
 public interface UserManager {
 
     Map<String,Object> getUserByOpenId(String openId);
+
+    boolean isPhoneRegistered(String phone);
 }

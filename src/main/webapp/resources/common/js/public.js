@@ -83,32 +83,6 @@ function putb64(base64,UpToken,action,keyid){
     xhr.setRequestHeader("Authorization", "UpToken" + " " + token);
     xhr.send(pic);
 }
-function getUptoken(){
-	var token='';
-	var sentData="{'bucketName':'doctor'}";//test
-	  console.log('sentData=',sentData);
-	$.ajax({type:"POST",url:getIfc_url()+'qiniu/uptoken',
-		   dataType: 'json',
-	      contentType: "application/json",
-	      data:sentData,
-	      async:false,
-		   error:function(json){
-	    	  console.log('error=json=',json.responseText);
-	    	  //errorPage();
-	    	  return;
-	      },
-	      success: function(json){
-	    	 
-		  var returnCode=json.returnCode;
-		  if(returnCode==0){
-			  console.log('token=',json.token);
-			  token=json.token;
-		  }
-		
-	    }
-		});
-	return token;
-}
 
 function getTime(type) {
     var d = new Date();

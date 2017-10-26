@@ -12,7 +12,15 @@ import java.util.Map;
 @Service("userManager")
 public class UserManagerImpl implements UserManager {
 
+
+
     public Map<String, Object> getUserByOpenId(String openId) {
         return null;
+    }
+
+    public boolean isPhoneRegistered(String phone) {
+        boolean flag = false;
+        // 判断是否有注册申请
+        return flag;
     }
 }

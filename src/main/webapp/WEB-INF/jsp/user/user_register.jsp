@@ -179,15 +179,14 @@
             </p>
         </li>
 
-
         <li class="gm2itm1 cf">
             <span class="gm2mta1">手机号码</span>
-
             <p class="gm2ipts1 ">
                 <input type="tel" class="gm2ipt1 ipt21" id="phone" name="phone" value="" placeholder="请输入您的手机号"
                        maxlength="22" required/>
             </p>
         </li>
+
         <li class="gm2itm1 cf">
             <span class="gm2mta1">验证码</span>
             <b class="gm2yz1" id='sendmsgid'>获取验证码</b>
@@ -205,35 +204,29 @@
                        maxlength="16" required/>
             </p>
         </li>
-
     </ul>
 
-
     <dl class="h2dl cf" style="border-bottom:0px solid #ccc;margin-top:10px">
-
-	<span class="dz-message needsclick ">
+	    <span class="dz-message needsclick ">
  			<div class="ads-c-12 hui-999 pl-1em pr-1em clearfix">
-	                <span class="" id="file_bar"></span>
-	                <div class=" file-bar" id="plus">
-	                    <div class="add-img-bar">
-	                    	<div class="pa translateC">
-	                        	<div class="add-img-icon"></div>
-	                        </div>
-	                    </div>
-	                    <form method="post" action="http://up.qiniu.com" enctype="multipart/form-data">
-	                        <input type="file" accept="image/*" id="upload_img" class="upload-img" value="">
-	                    </form>
-	                </div>
-	                <div class="base64-img"></div>
-	            </div>
-	            <div class="h-05em"></div>
-
+                <span class="" id="file_bar"></span>
+                <div class=" file-bar" id="plus">
+                    <div class="add-img-bar">
+                        <div class="pa translateC">
+                            <div class="add-img-icon"></div>
+                        </div>
+                    </div>
+                    <form method="post" action="http://up.qiniu.com" enctype="multipart/form-data">
+                        <input type="file" accept="image/*" id="upload_img" class="upload-img" value="">
+                    </form>
+                </div>
+                <div class="base64-img"></div>
+            </div>
+            <div class="h-05em"></div>
+        </span>
     </dl>
     <dl class="h2dl cf">
-
         <span id='tipsid'>请您上传医师资格证/医师执业证 或者胸牌（需包含姓名医院名称 科室 职称）</span>
-
-
     </dl>
 
     <p class="zx1tjs">
@@ -244,19 +237,13 @@
         <label class="demo_label"><input class="demo_radio" type="checkbox" checked="checked" name="demo-radio"
                                          id="checkboxid"><span class="demo_radioInput"></span>本人已阅读,知哓并同意遵守<a
                 class="h7tk1" href="jpagetk.html">《服务条款》</a></label>
-
     </p>
 
-    <div class="mask">
-        <!-- mask --></div>
-
-    <!-- all --></div>
-
+    <div class="mask"></div>
+</div>
 
 <div class="ermod h7covs" id='code' style="top:50%">
-    <img id='Previewid' src=""/>
-    <!-- ermod --></div>
-
+    <img id='Previewid' src=""/></div>
 
 <!--js放在后面-->
 <input type="hidden" value='uploadPreview' id='curpic'/>
@@ -268,10 +255,12 @@
 <script src="/resources/common/js/public.js"></script>
 <script src="/resources/users/user_info.js"></script>
 <script>
+
     var InterValObj; //timer变量，控制时间
     var count = 60; //间隔函数，1秒执行
     var curCount;//当前剩余秒数
     var codeflag = true;
+
     $('#sendmsgid').click(function () {
         var phone = $('#phone').val();
         if (phone == '') {
@@ -283,15 +272,30 @@
             return;
         }
         if (codeflag) {
-
             getMsg(phone);
             codeflag = false
             sendMessage();
-
         }
+    });
 
-
-    })
+    function getMsg(phone){
+        var sentData="{'phone':'"+phone+"','type':'doctor_register'}";
+        $.ajax({
+            type:"POST",
+            url: getIfc_url + 'vcode/push',
+            dataType: 'json',
+            contentType: "application/json",
+            data:sentData,
+            async:true,
+            success: function(json){
+                var returnCode=json.returnCode;
+                if(returnCode==0){
+                    console.log('json=',json.verifyCode);
+                    successPage('信息已发送，请注意查收');
+                }
+            }
+        });
+    }
 
     $('#showpwdid').click(function () {
         if ($(this).hasClass('poff')) {
@@ -306,9 +310,8 @@
             $(this).addClass("poff");
             $(this).html("显示密码");
         }
+    });
 
-
-    })
     function sendMessage() {
         curCount = count;
         //设置button效果，开始计时
@@ -355,9 +358,8 @@
 <script src="/resources/common/js/2.chunk.js"></script>
 <script type="text/javascript">
 
-
     var pageTool = {
-        "token": getUptoken(),
+        "token": ${uptoken},
         "space": "images",
         "spaceHost": "http://ot8f23529.bkt.clouddn.com/"
     }
@@ -583,7 +585,6 @@
 
         $("#cityid").removeClass("hide");
     }
-
 
     function preview(obj) {
         console.log(obj.attr('src'));
