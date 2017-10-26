@@ -37,4 +37,14 @@ public class UserCtrl extends BaseCtrl {
 
         return "/user/user_register";
     }
+
+    /**
+     * 用户注册
+     * @return
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String saveRegisterUser() {
+
+        return "/user/user_apply_waiting";
+    }
 }
