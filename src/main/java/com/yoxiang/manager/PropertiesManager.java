@@ -31,4 +31,6 @@ public interface PropertiesManager {
     String getQiNiuSecretKey();
     String getQiNiuDoctorOssUrl();
     String getQiNiuBucketName();
+
+    String getContextPath();
 }

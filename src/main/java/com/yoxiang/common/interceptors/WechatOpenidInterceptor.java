@@ -4,9 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.yoxiang.common.PropertiesHelper;
 import com.yoxiang.controller.BaseCtrl;
 import com.yoxiang.controller.UserCtrl;
+import com.yoxiang.manager.PropertiesManager;
+import com.yoxiang.manager.UserApplyManager;
 import com.yoxiang.manager.UserManager;
 import com.yoxiang.utils.StringUtils;
 import com.yoxiang.utils.WechatHttpUtils;
+import com.yoxiang.vo.UserApplyVO;
+import com.yoxiang.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +40,10 @@ public class WechatOpenidInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private UserApplyManager userApplyManager;
+    @Autowired
+    private PropertiesManager propertiesManager;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -63,19 +71,11 @@ public class WechatOpenidInterceptor extends HandlerInterceptorAdapter {
                 return true;
             } else {
 
-                String DOMAIN = PropertiesHelper.getContextPath();
+                String DOMAIN = propertiesManager.getContextPath();
                 HttpSession session = request.getSession();
                 String userAgent = request.getHeader(USER_AGENT);
                 boolean is_weixin = (userAgent != null && userAgent.toLowerCase().contains(MICROMESSENGER));
                 session.setAttribute(BaseCtrl.OPEN_IN_WEIXIN, is_weixin ? "1" : "0");
-
-                if ("true".equals("true")) {  // 本地开发模拟微信端测试
-                    session.setAttribute(UserCtrl.DOCTOR_USER_ID, 1);
-                    session.setAttribute(UserCtrl.OPEN_ID, "oooy1wh4iCn6Y558u3ETw4boaXXw");
-                    session.setAttribute(BaseCtrl.BINDING_PHONE, "18688184378");
-
-                    return true;
-                }
 
                 // 如果是微信浏览器，则获取open_id放入session中
                 if (is_weixin) {
@@ -100,16 +100,20 @@ public class WechatOpenidInterceptor extends HandlerInterceptorAdapter {
 
                                 session.setAttribute(UserCtrl.OPEN_ID, open_id);  // 将open_id 放入session
 
-                                Map<String, Object> data = userManager.getUserByOpenId(open_id);
-
-                                if (data != null && data.get("id") != null && data.get("phone") != null) {
-                                    session.setAttribute(BaseCtrl.DOCTOR_USER_ID, data.get("id"));
-                                    session.setAttribute(BaseCtrl.BINDING_PHONE, data.get("phone"));
-                                } else {
-                                    if (authEnum.needBinding() == true) {
-                                        // 跳转到绑定手机页面
-                                        String turn_url = DOMAIN + request.getRequestURI() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
-                                        String forwordUrl = DOMAIN + "/user/login.html?turn_url=" + URLEncoder.encode(turn_url, "UTF-8");
+                                UserVO user = userManager.getUserByOpenId(open_id);
+                                if (user != null) {     // 该openid已注册为认证用户
+                                    session.setAttribute(BaseCtrl.DOCTOR_USER_ID, user.getId());
+                                    session.setAttribute(BaseCtrl.BINDING_PHONE, user.getPhone());
+                                } else {    // 未认证，需要跳转到对应的页面
+                                    UserApplyVO apply = userApplyManager.getNotDeletedByOpenid(open_id);
+                                    if (apply != null) {
+                                        logger.info("已注册申请，跳转到注册信息页面。。。。。。。。。");
+                                        String forwordUrl = DOMAIN + "/user/register/info";
+                                        response.sendRedirect(forwordUrl);
+                                        return false;
+                                    } else {    // 不存在申请，跳转到注册页面
+                                        logger.info("尚未注册申请，跳转到注册页面。。。。。。。。。");
+                                        String forwordUrl = DOMAIN + "/user/register";
                                         response.sendRedirect(forwordUrl);
                                         return false;
                                     }
@@ -148,16 +152,18 @@ public class WechatOpenidInterceptor extends HandlerInterceptorAdapter {
                         }
                     } else {
                         if (StringUtils.isEmptyOrNull(doctor_user_id)) {
-                            Map<String, Object> data = userManager.getUserByOpenId(open_id);
-
-                            if (data != null && data.get("id") != null && data.get("phone") != null) {
-                                session.setAttribute(BaseCtrl.DOCTOR_USER_ID, data.get("id"));
-                                session.setAttribute(BaseCtrl.BINDING_PHONE, data.get("phone"));
+                            UserVO user = userManager.getUserByOpenId(open_id);
+                            if (user != null) {
+                                session.setAttribute(BaseCtrl.DOCTOR_USER_ID, user.getId());
+                                session.setAttribute(BaseCtrl.BINDING_PHONE, user.getPhone());
                             } else {
-                                if (authEnum.needBinding() == true) {
-                                    // 跳转到绑定手机页面
-                                    String turn_url = DOMAIN + request.getRequestURI() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
-                                    String forwordUrl = DOMAIN + "/user/phone_binding.html?turn_url=" + URLEncoder.encode(turn_url, "utf-8");
+                                UserApplyVO apply = userApplyManager.getNotDeletedByOpenid(open_id);
+                                if (apply != null) {
+                                    String forwordUrl = DOMAIN + "/user/register/info";
+                                    response.sendRedirect(forwordUrl);
+                                    return false;
+                                } else {    // 不存在申请，跳转到注册页面
+                                    String forwordUrl = DOMAIN + "/user/register";
                                     response.sendRedirect(forwordUrl);
                                     return false;
                                 }

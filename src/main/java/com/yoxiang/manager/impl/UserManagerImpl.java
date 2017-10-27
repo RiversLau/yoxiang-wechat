@@ -4,6 +4,7 @@ import com.yoxiang.manager.UserApplyManager;
 import com.yoxiang.manager.UserManager;
 import com.yoxiang.utils.StringUtils;
 import com.yoxiang.vo.UserApplyVO;
+import com.yoxiang.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private UserApplyManager userApplyManager;
 
-    public Map<String, Object> getUserByOpenId(String openId) {
+    public UserVO getUserByOpenId(String openId) {
         return null;
     }
 

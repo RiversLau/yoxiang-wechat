@@ -11,5 +11,7 @@ public interface UserApplyMapper {
 
     UserApplyVO getStatusNotEqualByPhone(@Param("status") Integer status, @Param("phone") String phone);
 
+    UserApplyVO getStatusNotEqualByOpenid(@Param("status") Integer ordinal, @Param("openid") String openid);
+
     int saveUserApply(UserApplyVO apply);
 }

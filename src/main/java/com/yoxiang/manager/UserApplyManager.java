@@ -16,6 +16,13 @@ public interface UserApplyManager {
     UserApplyVO getNotDeletedByPhone(String phone);
 
     /**
+     * 通过openID获取未删除的申请
+     * @param openid
+     * @return
+     */
+    UserApplyVO getNotDeletedByOpenid(String openid);
+
+    /**
      * 新增注册申请
      * @param apply 申请VO
      * @return

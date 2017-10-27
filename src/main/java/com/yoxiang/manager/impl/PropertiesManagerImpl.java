@@ -178,4 +178,14 @@ public class PropertiesManagerImpl implements PropertiesManager {
     public String getQiNiuBucketName() {
         return getProperty(QINIU_OSS_BUCKET_NAME);
     }
+
+    /**
+     * 应用相关配置
+     * @return
+     */
+    private static final String CONTEXT_PATH = "CONTEXT_PATH";
+    @Override
+    public String getContextPath() {
+        return getProperty(CONTEXT_PATH);
+    }
 }

@@ -43,13 +43,13 @@
     </bean>
 
     <!-- 请求耗时记录拦截器，配置拦截所有请求 -->
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash; 拦截请求获取open_id &ndash;&gt;-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<bean class="com.yoxiang.common.interceptors.WechatOpenidInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <!-- 拦截请求获取open_id -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.yoxiang.common.interceptors.WechatOpenidInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
 

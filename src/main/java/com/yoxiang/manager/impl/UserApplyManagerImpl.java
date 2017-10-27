@@ -30,9 +30,25 @@ public class UserApplyManagerImpl implements UserApplyManager {
     @Autowired
     private VerifyCodeManager verifyCodeManager;
 
+    /**
+     * 根据手机号获取未删除的申请
+     * @param phone 手机号
+     * @return
+     */
+    @Override
     public UserApplyVO getNotDeletedByPhone(String phone) {
 
         return userApplyMapper.getStatusNotEqualByPhone(UserApplyVO.Status.DELETED.ordinal(), phone);
+    }
+
+    /**
+     * 根据openid获取未删除的申请
+     * @param openid 微信openId
+     * @return
+     */
+    @Override
+    public UserApplyVO getNotDeletedByOpenid(String openid) {
+        return userApplyMapper.getStatusNotEqualByOpenid(UserApplyVO.Status.DELETED.ordinal(), openid);
     }
 
     @Override

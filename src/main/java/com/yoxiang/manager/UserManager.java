@@ -1,5 +1,7 @@
 package com.yoxiang.manager;
 
+import com.yoxiang.vo.UserVO;
+
 import java.util.Map;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Map;
  */
 public interface UserManager {
 
-    Map<String,Object> getUserByOpenId(String openId);
+    UserVO getUserByOpenId(String openId);
 
     /**
      * 判断手机号是否已经注册

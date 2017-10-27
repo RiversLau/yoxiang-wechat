@@ -53,7 +53,6 @@ public class UserCtrl extends BaseCtrl {
      * 注册页面
      * @return
      */
-    @Authc(needOpenid = true)
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(HttpServletRequest request) {
 
@@ -79,6 +78,7 @@ public class UserCtrl extends BaseCtrl {
      * 用户注册
      * @return
      */
+    @Authc(needOpenid = true)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView saveRegisterUser(UserApplyVO apply, HttpServletRequest request) {
 
@@ -94,8 +94,16 @@ public class UserCtrl extends BaseCtrl {
         return mv;
     }
 
+    /**
+     * 获取用户注册信息
+     * @param request
+     * @return
+     */
+    @Authc(needOpenid = true)
     @RequestMapping(value = "/register/info", method = RequestMethod.GET)
-    public String registerInfo(HttpServletResponse response) {
+    public String registerInfo(HttpServletRequest request) {
+
+        String openId = String.valueOf(request.getSession().getAttribute(OPEN_ID));
 
         return "user/user_apply_waiting";
     }

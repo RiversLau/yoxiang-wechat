@@ -31,6 +31,12 @@
         WHERE phone = #{phone, jdbcType=VARCHAR} AND status != #{status, jdbcType=INTEGER}
     </select>
 
+    <select id="getStatusNotEqualByOpenid" resultMap="applyResultMap">
+        SELECT id, sex, name, type, status, phone, openid, password, hospital, dept, title, certimg, make_model, remark, area_id
+        FROM doctor_apply
+        WHERE openid = #{openid, jdbcType=VARCHAR} AND status != #{status, jdbcType=INTEGER}
+    </select>
+
     <insert id="saveUserApply" parameterType="com.yoxiang.vo.UserApplyVO">
         INSERT INTO doctor_apply(
           sex, name, type, status, phone, openid, password, hospital, dept, title, certimg,
