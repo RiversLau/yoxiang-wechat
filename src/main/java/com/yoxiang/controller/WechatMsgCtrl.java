@@ -20,8 +20,6 @@ import java.io.Writer;
 @RequestMapping("/wx/mp")
 public class WechatMsgCtrl extends BaseCtrl {
 
-    private static final String TRUST_REFERER = "rrdkf.com";
-
     /**
      * 微信服务器验证开发者的接口
      * @param request

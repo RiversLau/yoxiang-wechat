@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yoxiang.mapper.UserApplyMapper">
+
+    <resultMap id="applyResultMap" type="com.yoxiang.vo.UserApplyVO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="type" column="type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+
+        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="phone" column="phone"/>
+        <result property="openid" column="openid"/>
+        <result property="password" column="password"/>
+
+        <result property="hospital" column="hospital"/>
+        <result property="dept" column="dept"/>
+        <result property="title" column="title"/>
+        <result property="certimg" column="certimg"/>
+        <result property="makeModel" column="make_model" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+
+        <result property="remark" column="remark"/>
+        <result property="areaId" column="area_id"/>
+    </resultMap>
+
+    <select id="getStatusNotEqualByPhone" resultMap="applyResultMap">
+        SELECT id, sex, name, type, status, phone, openid, password, hospital, dept, title, certimg, make_model, remark, area_id
+        FROM doctor_apply
+        WHERE phone = #{phone, jdbcType=VARCHAR} AND status != #{status, jdbcType=INTEGER}
+    </select>
+
+    <insert id="saveUserApply" parameterType="com.yoxiang.vo.UserApplyVO">
+        INSERT INTO doctor_apply(
+          sex, name, type, status, phone, openid, password, hospital, dept, title, certimg,
+          make_model, area_id, create_time, update_time
+        ) values (
+          #{sex, jdbcType=INTEGER, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+          #{name}, #{type, jdbcType=INTEGER, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+          #{status, jdbcType=INTEGER, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+          #{phone}, #{openid}, #{password}, #{hospital}, #{dept}, #{title}, #{certimg},
+          #{makeModel, jdbcType=INTEGER, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+          #{areaId, jdbcType=INTEGER},
+          #{createTime, jdbcType=TIMESTAMP},
+          #{updateTime, jdbcType=TIMESTAMP}
+        )
+    </insert>
+</mapper>

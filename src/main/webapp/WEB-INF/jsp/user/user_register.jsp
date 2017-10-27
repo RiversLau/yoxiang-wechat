@@ -9,6 +9,7 @@
     <title>注册</title>
     <link href="/resources/common/css/a_red.css" rel="stylesheet"/>
     <link href="/resources/common/css/dropzone.css" rel="stylesheet"/>
+    <link href="/resources/common/css/mdialog.css" rel="stylesheet"/>
     <link href="/resources/users/register.css" rel="stylesheet"/>
     <style>
         .demo_label {
@@ -73,9 +74,9 @@
         </li>
 
         <li class="gm2itm1 cf">
-            <span class="gm2mta1">真实姓名</span>
+            <span class="gm2mta1">姓名</span>
             <p class="gm2ipts1">
-                <input type="text" class="gm2ipt1 ipt21" id="name" name="name" value="" placeholder="请输入真实姓名"
+                <input type="text" class="gm2ipt1 ipt21" id="name" name="name" value="" placeholder="真实姓名"
                        maxlength="22" required/>
             </p>
         </li>
@@ -84,9 +85,9 @@
             <span class="f3mta1">性别</span>
             <p class="f3slts1">
                 <select class="f3slt1" name="sex" id="sex">
-                    <option value="" checked="checked">请选择性别</option>
-                    <option value="male">男</option>
-                    <option value="female">女</option>
+                    <option value="UNKNOWN" checked="checked">性别</option>
+                    <option value="MALE">男</option>
+                    <option value="FEMALE">女</option>
                 </select>
                 <i class="f3icon1"></i>
             </p>
@@ -94,10 +95,10 @@
 
 
         <li class="f3itm1 cf">
-            <span class="f3mta1">所在地</span>
+            <span class="f3mta1">省份</span>
             <p class="f3slts1">
                 <select class="f3slt1" name="area" id="province" onchange="getCity()">
-                    <option value="" checked="checked">请选择所在省</option>
+                    <option value="" checked="checked">所在省份</option>
                     <c:forEach items="${areaList}" var="area">
                         <c:if test="${area.level == 1}">
                             <option value="${area.id}">${area.name}</option>
@@ -109,10 +110,10 @@
         </li>
 
         <li class="f3itm1 cf hide" id="cityid">
-            <span class="f3mta1">所在市</span>
+            <span class="f3mta1">城市</span>
             <p class="f3slts1">
                 <select class="f3slt1" name="area_son" id="city">
-                    <option value="" checked="checked">请选择所在市</option>
+                    <option value="" checked="checked">所在城市</option>
                 </select>
                 <i class="f3icon1"></i>
             </p>
@@ -121,34 +122,34 @@
         <select id="cityArray" style="display:none">
             <c:forEach items="${areaList}" var="area">
                 <c:if test="${area.level eq 2}">
-                    <option data-id="${area.id}" parent-id="${area.parentId}">${area.name}</option>
+                    <option value="${area.id}" data-id="${area.id}" parent-id="${area.parentId}">${area.name}</option>
                 </c:if>
             </c:forEach>
         </select>
 
         <li class="gm2itm1 cf">
-            <span class="gm2mta1">所在医院</span>
+            <span class="gm2mta1">医院</span>
             <p class="gm2ipts1">
-                <input type="text" class="gm2ipt1 ipt21" id="hospital" name="hospital" value="" placeholder="请输入所在医院"
+                <input type="text" class="gm2ipt1 ipt21" id="hospital" name="hospital" value="" placeholder="所属医院"
                        maxlength="22" required/>
             </p>
         </li>
 
         <li class="gm2itm1 cf">
-            <span class="gm2mta1">所在科室</span>
+            <span class="gm2mta1">科室</span>
             <p class="gm2ipts1">
-                <input type="text" class="gm2ipt1 ipt21" id="dept" name="dept" value="" placeholder="请输入所在科室"
+                <input type="text" class="gm2ipt1 ipt21" id="dept" name="dept" value="" placeholder="所属科室"
                        maxlength="22" required/>
             </p>
         </li>
 
-        <li class="f3itm1 cf" id='title1'>
+        <li class="f3itm1 cf" id='title1' style="display:none">
             <span class="f3mta1">职称</span>
             <p class="f3slts1">
                 <select class="f3slt1" name="title" id="title11">
-                    <option value="" checked="checked">请选择职称</option>
+                    <option value="" checked="checked">职称</option>
                     <c:forEach items="${doctorTitles}" var="title">
-                        <option value="${title.id}">${title.name}</option>
+                        <option value="${title.name}">${title.name}</option>
                     </c:forEach>
                 </select>
                 <i class="f3icon1"></i>
@@ -159,9 +160,9 @@
             <span class="f3mta1">从业资格</span>
             <p class="f3slts1">
                 <select class="f3slt1" name="title" id="title12">
-                    <option value="" checked="checked">请选择从业资格</option>
+                    <option value="" checked="checked">从业资格</option>
                     <c:forEach items="${therapistTitles}" var="title">
-                        <option value="${title.id}">${title.name}</option>
+                        <option value="${title.name}">${title.name}</option>
                     </c:forEach>
                 </select>
                 <i class="f3icon1"></i>
@@ -171,7 +172,7 @@
             <span class="f3mta1">制作模具</span>
             <p class="f3slts1">
                 <select class="f3slt1" name="make_model" id="make_modelid">
-                    <option value="" checked="checked">请选择能否制作模具</option>
+                    <option value="" checked="checked">能否制作模具</option>
                     <option value="CANNOT">否</option>
                     <option value="CAN">是</option>
                 </select>
@@ -182,7 +183,7 @@
         <li class="gm2itm1 cf">
             <span class="gm2mta1">手机号码</span>
             <p class="gm2ipts1 ">
-                <input type="tel" class="gm2ipt1 ipt21" id="phone" name="phone" value="" placeholder="请输入您的手机号"
+                <input type="tel" class="gm2ipt1 ipt21" id="phone" name="phone" value="" placeholder="手机号"
                        maxlength="22" required/>
             </p>
         </li>
@@ -191,7 +192,7 @@
             <span class="gm2mta1">验证码</span>
             <b class="gm2yz1" id='sendmsgid'>获取验证码</b>
             <p class="gm2ipts1 gm2ipta1">
-                <input type="tel" class="gm2ipt2 ipt21" id="code" name="code" value="" placeholder="请输入验证码"
+                <input type="tel" class="gm2ipt2 ipt21" id="phone_code" name="code" value="" placeholder="验证码"
                        maxlength="22" required/>
             </p>
         </li>
@@ -200,7 +201,7 @@
             <span class="gm2mta1">设置密码</span>
             <b class="gm2yz1 poff" id='showpwdid'>显示密码</b>
             <p class="gm2ipts1 gm2ipta1">
-                <input type="password" class="gm2ipt2 ipt21" id="password" name="password" value="" placeholder="请输入密码"
+                <input type="password" class="gm2ipt2 ipt21" id="password" name="password" value="" placeholder="6至16位字符"
                        maxlength="16" required/>
             </p>
         </li>
@@ -226,11 +227,11 @@
         </span>
     </dl>
     <dl class="h2dl cf">
-        <span id='tipsid'>请您上传医师资格证/医师执业证 或者胸牌（需包含姓名医院名称 科室 职称）</span>
+        <span id='tipsid'>请上传您的相关资质证书或证件</span>
     </dl>
 
     <p class="zx1tjs">
-        <a class="zx1tj inb" href="javascript:sumbit_reg()">注册</a>
+        <a class="zx1tj inb" id="submit_btn">注册</a>
     </p>
 
     <p class="h7tip1"><!--<b class="h7icon1 inb1 now"></b> <input class="h7chk1" type="checkbox" checked="checked">-->
@@ -251,51 +252,15 @@
 <input type="hidden" value='' id='openid'/>
 
 <script src="/resources/common/js/jquery-1.11.0.min.js"></script>
-
+<script src="/resources/common/js/mdialog.js"></script>
+<script src="/resources/common/js/zepto.min.js"></script>
+<script src="/resources/common/js/utils.js"></script>
 <script src="/resources/common/js/public.js"></script>
-<script src="/resources/users/user_info.js"></script>
+<script src="/resources/common/js/public_v2.js"></script>
+<script src="/resources/users/user_register.js"></script>
 <script>
 
-    var InterValObj; //timer变量，控制时间
-    var count = 60; //间隔函数，1秒执行
-    var curCount;//当前剩余秒数
-    var codeflag = true;
 
-    $('#sendmsgid').click(function () {
-        var phone = $('#phone').val();
-        if (phone == '') {
-            successPage('请输入手机号');
-            return;
-        }
-        if (!checkMobile(phone)) {
-            successPage("不是合法的手机号");
-            return;
-        }
-        if (codeflag) {
-            getMsg(phone);
-            codeflag = false
-            sendMessage();
-        }
-    });
-
-    function getMsg(phone){
-        var sentData="{'phone':'"+phone+"','type':'doctor_register'}";
-        $.ajax({
-            type:"POST",
-            url: getIfc_url + 'vcode/push',
-            dataType: 'json',
-            contentType: "application/json",
-            data:sentData,
-            async:true,
-            success: function(json){
-                var returnCode=json.returnCode;
-                if(returnCode==0){
-                    console.log('json=',json.verifyCode);
-                    successPage('信息已发送，请注意查收');
-                }
-            }
-        });
-    }
 
     $('#showpwdid').click(function () {
         if ($(this).hasClass('poff')) {
@@ -311,28 +276,6 @@
             $(this).html("显示密码");
         }
     });
-
-    function sendMessage() {
-        curCount = count;
-        //设置button效果，开始计时
-
-        $("#sendmsgid").html("" + curCount + "秒");
-        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
-    }
-
-    //timer处理函数
-    function SetRemainTime() {
-        if (curCount == 0) {
-            window.clearInterval(InterValObj);//停止计时器
-            $("#sendmsgid").html("发送验证码");
-            codeflag = true;
-        }
-        else {
-            curCount--;
-            $("#sendmsgid").html("" + curCount + "秒");
-            codeflag = false;
-        }
-    }
     $('.h7icon1').click(function () {
 
         $(this).toggleClass('now');
@@ -359,7 +302,7 @@
 <script type="text/javascript">
 
     var pageTool = {
-        "token": ${uptoken},
+        "token": '${uptoken}',
         "space": "images",
         "spaceHost": "http://ot8f23529.bkt.clouddn.com/"
     }
@@ -545,46 +488,6 @@
     }();
 </script>
 <script>
-
-    function selectType(type) {
-        if (type == 'doctor') {
-            $("#doctor").addClass('radioselnow');
-            $("#therapist").removeClass('radioselnow');
-            $("#doctor_type").val('doctor');
-            $("#titleid").html('医生注册');
-        } else {
-            $("#therapist").addClass('radioselnow');
-            $("#doctor").removeClass('radioselnow');
-            $("#doctor_type").val('therapist');
-            $("#titleid").html('治疗师注册');
-        }
-        changeDoctorType(type);
-    }
-
-    function changeDoctorType(type) {
-        if (type == 'doctor') {
-            $("#title1").css("display", "");
-            $("#title2").css("display", "none");
-            $("#title3").css("display", "none");
-            $("#tipsid").html("请您上传医师资格证/医师执业证 或者胸牌（需包含姓名医院名称 科室 职称）");
-        } else {
-            $("#title1").css("display", "none");
-            $("#title2").css("display", "");
-            $("#title3").css("display", "");
-            $("#tipsid").html("请您上传证书、资格证、胸牌或工作证");
-        }
-    }
-
-    function getCity() {
-        var parentId = $("#province").find("option:selected").val();
-        var cloneObj = $("#cityArray").find("option[parent-id='" + parentId + "']");
-
-        var ctiyObj = $("#city");
-        ctiyObj.html("");
-        ctiyObj.html(cloneObj.clone());
-
-        $("#cityid").removeClass("hide");
-    }
 
     function preview(obj) {
         console.log(obj.attr('src'));

@@ -10,5 +10,10 @@ public interface UserManager {
 
     Map<String,Object> getUserByOpenId(String openId);
 
+    /**
+     * 判断手机号是否已经注册
+     * @param phone
+     * @return
+     */
     boolean isPhoneRegistered(String phone);
 }

@@ -14,6 +14,8 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
+    <bean id="contextHelper" class="com.yoxiang.common.ApplicationContextHelper"/>
+
     <!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
     <context:component-scan base-package="com.yoxiang.manager"/>
 

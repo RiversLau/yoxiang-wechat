@@ -1,19 +1,25 @@
 package com.yoxiang.controller;
 
 import com.yoxiang.common.PropertiesHelper;
+import com.yoxiang.common.ReturnCode;
 import com.yoxiang.common.enums.DoctorType;
 import com.yoxiang.common.interceptors.Authc;
 import com.yoxiang.manager.AreaManager;
 import com.yoxiang.manager.TitleManager;
+import com.yoxiang.manager.UserApplyManager;
 import com.yoxiang.utils.QiniuUtil;
 import com.yoxiang.vo.AreaVO;
 import com.yoxiang.vo.TitleVO;
+import com.yoxiang.vo.UserApplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -28,6 +34,8 @@ public class UserCtrl extends BaseCtrl {
     private AreaManager areaManager;
     @Autowired
     private TitleManager titleManager;
+    @Autowired
+    private UserApplyManager userApplyManager;
 
     /**
      * 用户个人信息
@@ -45,7 +53,7 @@ public class UserCtrl extends BaseCtrl {
      * 注册页面
      * @return
      */
-//    @Authc(needOpenid = true)
+    @Authc(needOpenid = true)
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(HttpServletRequest request) {
 
@@ -72,8 +80,23 @@ public class UserCtrl extends BaseCtrl {
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String saveRegisterUser() {
+    public ModelAndView saveRegisterUser(UserApplyVO apply, HttpServletRequest request) {
 
-        return "/user/user_apply_waiting";
+        String openId = String.valueOf(request.getSession().getAttribute(OPEN_ID));
+        apply.setOpenid(openId);
+        Integer errCode = userApplyManager.saveUserApply(apply);
+
+        ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
+        mv.addObject("returnCode", errCode);
+        if (errCode != ReturnCode.SUCCESS) {
+            mv.addObject("errMsg", ReturnCode.getErrMsg(errCode));
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = "/register/info", method = RequestMethod.GET)
+    public String registerInfo(HttpServletResponse response) {
+
+        return "user/user_apply_waiting";
     }
 }

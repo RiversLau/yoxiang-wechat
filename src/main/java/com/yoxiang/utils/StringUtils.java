@@ -35,4 +35,36 @@ public class StringUtils {
         }
         return flag;
     }
+
+    /**
+     * 判断是否符合手机号格式
+     * @param str
+     * @return
+     */
+    public static boolean isMatchPhoneNumFormatter(String str) {
+
+        boolean flag = false;
+        if (!isEmpty(str) && str.trim().length() == Constants.PHONE_LENGTH) {
+            flag = true;
+        }
+
+        return flag;
+    }
+
+    /**
+     * 判断是否符合密码格式
+     * 暂定密码长度为6-16个字符
+     * @param str
+     * @return
+     */
+    public static boolean isMatchPasswordFormatter(String str) {
+
+        boolean flag = false;
+        if (!isEmpty(str) && str.length() >= Constants.PASSWORD_MIN_LENGTH
+                && str.length() <= Constants.PASSWORD_MAX_LENGTH) {
+            flag = true;
+        }
+
+        return flag;
+    }
 }

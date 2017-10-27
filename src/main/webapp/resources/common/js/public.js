@@ -1,5 +1,5 @@
 function getIfc_url() {
-	var ifc_url='http://docserver.rrdkf.com/';
+	var ifc_url='http://riverslau.natapp1.cc/';
 	//var ifc_url='http://docserveruat.rrdkf.com/';
 	//ifc_url='http://192.168.2.8:8080/doctor/';
 	//ifc_url='http://192.168.2.109:8080/';
